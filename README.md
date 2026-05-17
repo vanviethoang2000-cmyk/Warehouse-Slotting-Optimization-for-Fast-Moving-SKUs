@@ -1,0 +1,1 @@
+# Warehouse-Slotting-Optimization-for-Fast-Moving-SKUs
