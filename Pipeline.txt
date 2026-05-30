@@ -1,0 +1,70 @@
+=================================================================================
+          🚀 PIPELINE DỰ ÁN: ONLINE RETAIL WAREHOUSE SLOTTING OPTIMIZATION
+=================================================================================
+
+[ GIAI ĐOẠN 1: CHUẨN HÓA DỮ LIỆU & KHÁM PHÁ (EDA) ]
+   │
+   ├─ 1.1 Làm sạch dữ liệu (Data Cleaning):
+   │   ├─ Loại bỏ các giao dịch lỗi/hủy/miễn phí (Quantity <= 0 hoặc Price <= 0)
+   │   ├─ Loại bỏ các mã dịch vụ/hệ thống (StockCode chỉ toàn chữ cái, không chứa số)
+   │   └─ Loại bỏ các cột nhiễu không liên quan (Customer ID, Country)
+   │
+   ├─ 1.2 Chuẩn hóa tên thuộc tính (Renaming):
+   │   ├─ Invoice               ───► Định danh mã đơn hàng (Picking List)
+   │   ├─ StockCode             ───► Mã SKU sản phẩm (Đối tượng định vị kho)
+   │   ├─ InvoiceDate           ───► order_date (Ngày giờ giao dịch)
+   │   └─ Price                 ───► Đơn giá sản phẩm
+   │
+   ├─ 1.3 PHÂN TÍCH DỮ LIỆU VỚI SQL (DATA ANALYSIS WITH SQL):
+   │   ├─ Aggregate doanh số theo SKU, tính velocity theo tháng (SQL)
+   │   ├─ Phân loại ABC (Nhóm A: Top 20% SKU chiếm 80% sales/doanh số) (SQL)
+   │   ├─ Truy vấn danh sách top SKU theo từng category và thời gian pick hàng (SQL)
+   │   └─ Tạo bảng điểm slotting score dựa trên hai biến velocity và kích thước (SQL)
+   │
+   └─ 1.4 Hệ thống biểu đồ giai đoạn 1:
+       ├─ Bar chart: Top các mã SKU bán nhanh nhất (Fast-moving SKUs).
+       ├─ Heatmap: Biến động tần suất bán (Velocity) của SKU theo thời gian.
+       └─ **Box plot: Phân phối và phát hiện giá trị ngoại lai (Outliers) của Quantity và Price**
+
+                    ▼ (Dữ liệu sạch được nạp vào luồng tối ưu)
+
+[ GIAI ĐOẠN 2: TỐI ƯU HÓA VỊ TRÍ (SLOTTING) & MÔ PHỎNG ]
+   │
+   ├─ 2.1 Thiết lập môi trường kho ảo:
+   │   └─ Lập ma trận lưới tọa độ kho (Grid Layout) & Hàm khoảng cách Manhattan
+   │
+   ├─ 2.2 PHÂN TÍCH DỮ LIỆU VỚI PYTHON (DATA ANALYSIS WITH PYTHON):
+   │   ├─ Sử dụng thư viện Pandas để tính toán lại ABC và velocity (Python)
+   │   ├─ Sử dụng Scikit-learn chạy K-Means Clustering để phân nhóm slotting groups (Python)
+   │   │   └─ Biểu đồ: **Elbow Method Chart: Biểu đồ đường cong Elbow chọn K tối ưu**
+   │   ├─ Mô phỏng thời gian/quãng đường chọn hàng trước và sau khi áp dụng slotting (Python)
+   │   └─ Đánh giá hiệu quả bằng việc giảm thời gian di chuyển dựa trên giả định layout kho (Python)
+   │
+   └─ 2.3 Trực quan hóa kết quả tối ưu:
+       ├─ Sankey Diagram: Vẽ luồng di chuyển của hàng hóa từ các khu vực slot A/B/C đến trạm pick.
+       ├─ Slotting Map: Sơ đồ phân bố vị trí (X, Y) mới của các SKU trong không gian kho.
+       └─ **Bar Chart: So sánh hiệu năng tổng quãng đường di chuyển của 3 chiến lược (Simulation Performance)**
+
+                    ▼ (Kết quả được dùng để định hướng dự báo)
+
+[ GIAI ĐOẠN 3: DỰ BÁO NHU CẦU (REGRESSION ANALYSIS) ]
+   │
+   ├─ 3.1 Xây dựng biến đầu vào (Input Features): Seasonality (Tháng, Thứ), Promotion, Lag Features.
+   ├─ 3.2 Huấn luyện đối kháng hệ thống mô hình hồi quy:
+   │   ├─ Mô hình Cơ bản: Multiple Linear Regression đơn giản (Không chứa Lag features).
+   │   └─ Mô hình Nâng cao: Linear/Ridge Regression đầy đủ (Có chứa Lag features) & Random Forest.
+   ├─ 3.3 Đánh giá và giải thích hệ số:
+   │   ├─ So sánh sai số RMSE giữa mô hình đơn giản và mô hình nâng cao để chứng minh giá trị của Lag features.
+   │   └─ Giải thích ý nghĩa các hệ số tương quan để đưa ra thứ tự ưu tiên slotting cho SKU có velocity cao.
+   └─ 3.4 Hệ thống biểu đồ giai đoạn 3:
+       ├─ Line chart: So sánh giữa sản lượng dự báo và sản lượng thực tế trên tập Test để trực quan sai số.
+       └─ **Bar Chart: Trực quan hóa độ quan trọng của các thuộc tính (Feature Importance Chart)**
+
+                    ▼ (Xuất toàn bộ kết quả tổng hợp ra file .CSV)
+
+[ GIAI ĐOẠN 4: BÁO CÁO TƯƠNG TÁC & KẾT LUẬN (POWER BI) ]
+   │
+   ├─ 4.1 Dashboard Power BI: Tích hợp ABC dashboard, slotting map và các chỉ số pick efficiency metrics.
+   ├─ 4.2 Tính năng tương tác: Thiết lập bộ lọc động theo warehouse zone và SKU group cho quản lý theo dõi real-time.
+   └─ 4.3 Nghiệm thu dự án: Đưa ra kết luận và đề xuất cấu trúc layout kho mới tối ưu dựa trên biến Velocity.
+=================================================================================

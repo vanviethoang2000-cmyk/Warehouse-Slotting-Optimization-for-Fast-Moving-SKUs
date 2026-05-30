@@ -1,0 +1,19 @@
+# Virtual environments
+venv/
+env/
+.env
+
+# Data files (Do not upload large data files to GitHub)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+features/*.csv
+features/*.xlsx
+
+# Python and Jupyter cache/system files
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.DS_Store
