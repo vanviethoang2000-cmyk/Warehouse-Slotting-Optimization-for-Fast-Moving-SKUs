@@ -12,7 +12,7 @@ This project focuses on warehouse data analysis, slotting simulation, and SKU de
 ## 2. Folder Structure
 
 ```text
-Project_finals/
+Warehouse-Slotting-Optimization-for-Fast-Moving-SKUs/
 |-- data/
 |   |-- raw/
 |   |   `-- raw_data.xlsx
