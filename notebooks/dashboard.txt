@@ -1,0 +1,4 @@
+stage2: sku_clusters_final.csv
+fact_warehouse_layout.csv
+fact_picking_metrics.csv
+data_clean.csv

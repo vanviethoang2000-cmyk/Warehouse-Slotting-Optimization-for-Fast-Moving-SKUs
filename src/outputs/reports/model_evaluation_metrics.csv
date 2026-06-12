@@ -1,0 +1,8 @@
+Model,RMSE,R2 Score
+Multiple Linear,58.34,0.2315
+Ridge Regression,58.34,0.2315
+Xgboost,58.71,0.2215
+Random Forest,58.74,0.2209
+Lightgbm,59.4,0.2033
+Lstm,63.53,0.0885
+Naive Baseline,86.91,-0.7058
