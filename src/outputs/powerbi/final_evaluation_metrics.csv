@@ -1,4 +1,8 @@
-Strategy,Total Distance (m)
-ABC Layout (Historical),2860258
-K-Means Layout (Historical),2829818
-AI-XGBoost (Forecast),2503600
+Model,RMSE,MAE,R2 Score,Correlation,Total Travel Distance (m)
+Xgboost,58.18,13.95,0.2103,0.4896,809538
+Naive Baseline,80.82,20.65,-0.524,0.2004,810282
+Lightgbm,59.35,14.41,0.1781,0.4735,810850
+Lstm,63.76,15.38,0.0514,0.3915,812436
+Random Forest,58.7,14.35,0.1959,0.472,813002
+Multiple Linear,66.77,17.97,-0.0401,0.2214,814706
+Ridge Regression,66.77,17.97,-0.0401,0.2215,814730

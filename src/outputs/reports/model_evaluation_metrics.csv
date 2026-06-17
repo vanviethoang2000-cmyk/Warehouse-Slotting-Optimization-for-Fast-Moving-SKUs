@@ -1,8 +1,8 @@
-Model,RMSE,R2 Score
-Multiple Linear,58.34,0.2315
-Ridge Regression,58.34,0.2315
-Xgboost,58.71,0.2215
-Random Forest,58.74,0.2209
-Lightgbm,59.4,0.2033
-Lstm,63.53,0.0885
-Naive Baseline,86.91,-0.7058
+Model,RMSE,MAE,R2 Score,Correlation,Total Travel Distance (m)
+Xgboost,58.18,13.95,0.2103,0.4896,809538
+Naive Baseline,80.82,20.65,-0.524,0.2004,810282
+Lightgbm,59.35,14.41,0.1781,0.4735,810850
+Lstm,63.76,15.38,0.0514,0.3915,812436
+Random Forest,58.7,14.35,0.1959,0.472,813002
+Multiple Linear,66.77,17.97,-0.0401,0.2214,814706
+Ridge Regression,66.77,17.97,-0.0401,0.2215,814730

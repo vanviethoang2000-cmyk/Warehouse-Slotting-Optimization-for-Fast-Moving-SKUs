@@ -49,7 +49,9 @@ if len(skus) > 0:
 # =====================================================================
 # 3. MANHATTAN DISTANCE FUNCTION
 # =====================================================================
-from src.utils.metrics import calculate_manhattan_distance
+def calculate_manhattan_distance(pos1, pos2):
+    """Calculates the Manhattan distance between two grid coordinates."""
+    return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
 
 # =====================================================================
 # 4. PRE-CALCULATE SORTED POSITIONS BY DISTANCE TO I/O POINT

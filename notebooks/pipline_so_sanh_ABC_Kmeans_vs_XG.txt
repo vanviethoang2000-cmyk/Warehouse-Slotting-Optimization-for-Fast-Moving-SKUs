@@ -1,1 +1,26 @@
-1. Chặng 1: Dự báo Tương lai (Inference)Đầu vào (Input): Tập dữ liệu kiểm thử (Test Data) chứa các đặc trưng của tháng 11 và 12/2010 (bao gồm các biến lag, mùa vụ month, sự kiện is_promo...).Xử lý (Process): Nạp dữ liệu vào mô hình Machine Learning chiến thắng từ Giai đoạn 3 (ví dụ: Multiple Linear Regression hoặc XGBoost).Đầu ra (Output): Cột dự báo số lượng bán ra (pred_quantity) cho từng mã hàng (SKU) trong từng ngày của tháng 11 và 12.2. Chặng 2: Xếp hạng và Gán nhãn (Ranking & Indexing)Đầu vào: Bảng kết quả dự báo từ Chặng 1.Xử lý: 1.  Cộng gộp (groupby) tổng số lượng hàng dự báo sẽ bán được của từng SKU trong cả 2 tháng.2.  Sắp xếp danh sách SKU theo thứ tự tiềm năng từ cao xuống thấp.3.  Cắt danh sách thành 10 phần bằng nhau (qcut).Đầu ra: Mỗi SKU sở hữu một mã Velocity Index từ 1 đến 10. (Quy ước: Index 1 là "Ngôi sao" bán siêu chạy, Index 10 là hàng tồn bán chậm nhất).3. Chặng 3: Xếp kho Động (Dynamic Slotting Simulation)Đầu vào: Danh sách SKU kèm Velocity Index và Mạng lưới tọa độ các kệ hàng (Grid Slots) được đo lường khoảng cách đến cửa kho (I/O Point).Xử lý: Thuật toán áp dụng luật "Ưu tiên theo Index". Các SKU mang Index 1 sẽ tự động "chiếm" các vị trí kệ hàng gần I/O Point nhất. Các SKU Index lớn hơn sẽ bị đẩy lùi dần ra các khu vực xa (Zone B, Zone C).Đầu ra: Sơ đồ kho vật lý (Warehouse Layout) hoàn chỉnh, được sắp xếp chủ động để "đón đầu" nhu cầu tháng 11-12.4. Chặng 4: Khởi chạy Thực tế ảo và Đối chứng (Evaluation)Đầu vào: Sơ đồ kho AI ở Chặng 3 và Tập số liệu bán hàng THỰC TẾ (actual_quantity) của tháng 11-12.Xử lý: * Hệ thống mô phỏng lệnh xuất kho: Nhân viên đi nhặt hàng theo đúng số lượng khách thực sự mua trong tháng 11-12.Công thức: Tổng quãng đường = Số lần nhặt thực tế * Khoảng cách kệ * 2 (chiều đi và về).Đầu ra: Chỉ số KPI "Tổng quãng đường di chuyển (m)". Số liệu này được đưa lên biểu đồ Bar Chart để đối đầu trực tiếp với kết quả của chiến lược ABC và K-Means tĩnh từ Giai đoạn 2.Pipeline này tạo ra một vòng lặp hoàn hảo: Lấy dữ liệu phức tạp $\rightarrow$ Ép qua AI để tìm quy luật $\rightarrow$ Chuẩn hóa thành thang đo 1-10 dễ hiểu $\rightarrow$ Áp dụng vào mặt bằng kho vật lý $\rightarrow$ Đong đếm bằng mét vuông đi bộ để chứng minh giá trị kinh tế.
+1. Stage 1: Future Forecasting (Inference)
+Input: Test Data containing features of November and December 2010 (including lag variables, seasonality 'month', event 'is_promo'...).
+Process: Load data into the winning Machine Learning model from Stage 3 (e.g., Multiple Linear Regression or XGBoost).
+Output: Forecasted sales quantity column (pred_quantity) for each SKU for each day of November and December.
+
+2. Stage 2: Ranking & Indexing
+Input: Forecast results table from Stage 1.
+Process: 
+1. Groupby total forecasted sales quantity for each SKU over both months.
+2. Sort the SKU list by potential from high to low.
+3. Split the list into 10 equal parts (qcut).
+Output: Each SKU possesses a Velocity Index from 1 to 10. (Convention: Index 1 is the "Star" best-seller, Index 10 is the slowest-moving inventory).
+
+3. Stage 3: Dynamic Slotting Simulation
+Input: SKU list with Velocity Index and a Network of shelf coordinates (Grid Slots) measured by distance to the warehouse door (I/O Point).
+Process: The algorithm applies the "Priority by Index" rule. SKUs with Index 1 will automatically "occupy" the shelf positions closest to the I/O Point. SKUs with higher Indexes will be gradually pushed back to further areas (Zone B, Zone C).
+Output: A complete physical Warehouse Layout, actively arranged to "anticipate" the demand in November-December.
+
+4. Stage 4: Execution Simulation and Evaluation
+Input: AI warehouse layout from Stage 3 and ACTUAL sales data (actual_quantity) of November-December.
+Process: 
+* Outbound order simulation system: Staff pick items exactly according to what customers actually bought in November-December.
+Formula: Total distance = Actual pick frequency * Shelf distance * 2 (round trip).
+Output: KPI "Total travel distance (m)". This figure is plotted on a Bar Chart to compete directly with the results of the static ABC and K-Means strategies from Stage 2.
+
+This pipeline creates a perfect loop: Taking past data to predict the future, and taking actual future data to prove the validity of the prediction.
