@@ -1,0 +1,7 @@
+# Override GitHub Linguist language detection
+# Jupyter Notebooks contain HTML output inside JSON, causing GitHub to
+# misclassify the repo as "HTML". Mark them as Python instead.
+*.ipynb linguist-language=Python
+
+# Ensure CSV data files are not counted in language stats
+*.csv linguist-vendored
